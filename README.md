@@ -9,7 +9,7 @@ go run cmd/web/main.go # access http://localhost:80
 ### Run broker service locally
 ``` shell
 cd ./broker-service
-go run cmd/api # access http://localhost:80
+go run ./cmd/api # access http://localhost:80
 ```
 
 ### Run project in docker
