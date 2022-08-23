@@ -33,5 +33,8 @@ func (app *Config) writeLog(w http.ResponseWriter, r *http.Request) {
 		Error:   false,
 		Message: "logged",
 	}
+
+	log.Printf("handlers.writeLog: event%v\n", event)
+
 	_ = app.writeJSON(w, http.StatusAccepted, resp)
 }

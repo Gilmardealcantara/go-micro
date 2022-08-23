@@ -43,11 +43,14 @@ func (app *Config) HandleSubmission(w http.ResponseWriter, r *http.Request) {
 
 	switch requestPayload.Action {
 	case "auth":
+		log.Printf("New Request: action: %s, data:%v\n", requestPayload.Action, requestPayload.Auth)
 		app.authenticate(w, requestPayload.Auth)
 	case "log":
+		log.Printf("New Request: action: %s, data:%v\n", requestPayload.Action, requestPayload.Log)
 		app.logItem(w, requestPayload.Log)
 	default:
-		_ = app.errorJSON(w, errors.New("unknow action"))
+		log.Printf("New Request: action '%s' unknown \n", requestPayload.Action)
+		_ = app.errorJSON(w, errors.New("unknown action"))
 	}
 }
 
@@ -124,7 +127,7 @@ func (app *Config) logItem(w http.ResponseWriter, entry LogPayload) {
 	defer response.Body.Close()
 
 	if response.StatusCode != http.StatusAccepted {
-		log.Printf("App.logItem: response (%v) err: %s\n", response, err)
+		log.Printf("App.logItem: error response (%v)\n", response.StatusCode)
 		_ = app.errorJSON(w, err)
 		return
 	}
