@@ -1,5 +1,26 @@
 # Go microservice
 
+### Run
+``` shell
+cd project
+make up_build
+make start
+# access: localhost
+```
+
+### Service list
+```
+- front-end:      localhost:80
+- broker-service: localhost:8080
+- auth-service:   localhost:8083
+- auth-service:   localhost:8081
+- mailer-service: localhost:8084
+- postgres:       port: 5433
+- mongo:          port: 27017
+- mailhog-web:    port: 8025
+- mailhog:        port: 1025
+```
+
 ### Run front-end locally
 ``` shell
 cd ./fron-end
@@ -30,3 +51,5 @@ build front_end: make build_front
 start front_end: make start
 stop front_end: make stop
 ```
+
+Udemy course: [Working with Microservices in Go (Golang)](https://www.udemy.com/course/working-with-microservices-in-go/)
