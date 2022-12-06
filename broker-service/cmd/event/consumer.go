@@ -83,7 +83,6 @@ func (consumer *Consumer) Listen(topics []string) error {
 }
 
 func handlePayload(payload Payload) {
-	log.Println("New message - kind:" + payload.Name)
 	switch payload.Name {
 	case "log", "event":
 		// log whatever we get
