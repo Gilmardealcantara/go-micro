@@ -10,15 +10,17 @@ make start
 
 ### Service list
 ```
-- front-end:      localhost:80
-- broker-service: localhost:8080
-- auth-service:   localhost:8083
-- auth-service:   localhost:8081
-- mailer-service: localhost:8084
-- postgres:       port: 5433
-- mongo:          port: 27017
-- mailhog-web:    port: 8025
-- mailhog:        port: 1025
+- front-end:        localhost:80
+- broker-service:   localhost:8080
+- auth-service:     localhost:8083
+- auth-service:     localhost:8081
+- mailer-service:   localhost:8084
+- listener-service: internal
+- postgres:         port: 5433
+- mongo:            port: 27017
+- mailhog-web:      port: 8025
+- mailhog:          port: 1025
+- rabbitMQ:         port:5672
 ```
 
 ### Run front-end locally
