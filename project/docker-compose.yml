@@ -56,6 +56,14 @@ services:
       FROM_NAME: "Gilmar Alcantara"
       FROM_ADDRESS: "gilmar.alcantara@example.com"
 
+  listener_service:
+    build:
+      context: ./../listener-service
+      dockerfile: ./../listener-service/listener-service.dockerfile
+    deploy:
+      mode: replicated
+      replicas: 1
+
   postgres:
     image: 'postgres:14.2'
     ports:
@@ -87,7 +95,7 @@ services:
       - "1025:1025"
       - "8025:8025" #access http://localhost:8025/ for see all emails
 
-  rabitmq:
+  rabbitmq:
     image: 'rabbitmq:3.9-alpine'
     ports:
       - "5672:5672"

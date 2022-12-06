@@ -6,4 +6,5 @@ brokerApp
 authApp
 loggerApp
 mailerApp
+listenerApp
 db-data
