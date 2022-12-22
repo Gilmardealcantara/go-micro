@@ -1,7 +1,7 @@
 package main
 
 import (
-	"broker/cmd/event"
+	"broker/event"
 	"bytes"
 	"encoding/json"
 	"errors"
