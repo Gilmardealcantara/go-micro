@@ -28,6 +28,7 @@ type Config struct {
 
 func main() {
 	// connect to mongo
+	log.Println("Connecting mongo db ")
 	mongoClient, err := connectToMongo()
 	if err != nil {
 		log.Panic(err)
@@ -48,8 +49,11 @@ func main() {
 	}
 
 	// Register RPC Server
+	// start server
+	log.Println("Registering server on port ", webPort)
 	err = rpc.Register(new(RPCServer))
 	go app.rpcListen()
+	go app.gRPCListen()
 
 	// start server
 	log.Println("Starting server on port ", webPort)

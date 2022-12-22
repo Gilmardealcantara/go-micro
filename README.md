@@ -58,4 +58,10 @@ stop front_end: make stop
 ### Documentation 
 <img src="./docs/solution.png">
 
+### GRPC 
+```
+cd logger_service/logs
+protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative logs.proto 
+```
+
 Udemy course: [Working with Microservices in Go (Golang)](https://www.udemy.com/course/working-with-microservices-in-go/)
