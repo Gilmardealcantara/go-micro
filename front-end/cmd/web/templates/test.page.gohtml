@@ -45,12 +45,13 @@
         let output = document.getElementById("output")
         let sent = document.getElementById("payload")
         let received = document.getElementById("received")
+        const brokerUrl = '{{.BrokerUrl}}'
 
         brokerBtn.addEventListener("click", function() {
             const body = {
                 method: 'GET',
             }
-            fetch("http:\/\/localhost:8080", body)
+            fetch(brokerUrl, body)
                 .then(response => response.json())
                 .then(data => {
                     sent.innerHTML = "empty post request"
@@ -82,7 +83,7 @@
                 headers: headers
             }
 
-            fetch("http:\/\/localhost:8080/handle", body)
+            fetch( brokerUrl + "/handle", body)
                 .then(response => response.json())
                 .then(data => {
                     sent.innerHTML = JSON.stringify(payload, undefined, 4)
@@ -115,7 +116,7 @@
                 headers: headers
             }
 
-            fetch("http:\/\/localhost:8080/handle", body)
+            fetch(brokerUrl + "/handle", body)
                 .then(response => response.json())
                 .then(data => {
                     sent.innerHTML = JSON.stringify(payload, undefined, 4)
@@ -150,7 +151,7 @@
                 headers: headers
             }
 
-            fetch("http:\/\/localhost:8080/handle", body)
+            fetch(brokerUrl + "/handle", body)
                 .then(response => response.json())
                 .then(data => {
                     sent.innerHTML = JSON.stringify(payload, undefined, 4)
@@ -183,7 +184,7 @@
                 headers: headers
             }
 
-            fetch("http:\/\/localhost:8080/log-grpc", body)
+            fetch(brokerUrl + "/log-grpc", body)
                 .then(response => response.json())
                 .then(data => {
                     sent.innerHTML = JSON.stringify(payload, undefined, 4)
