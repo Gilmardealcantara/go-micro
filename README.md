@@ -116,10 +116,15 @@ cd ..
 asdf install # https://asdf-vm.com/
 brew install minikube
 brew link minikube
+
 minikube start --insecure-registry "10.0.0.0/24"
 minikube status
+# minikube ssh # util cmd
+
 kubect get pods
 minikube dashboard
+
+docker-compose -f postgres.yml up -d # external db 
 cd projects
 kubectl apply -f k8s
 ```
