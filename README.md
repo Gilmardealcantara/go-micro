@@ -64,4 +64,15 @@ cd logger_service/logs
 protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative logs.proto 
 ```
 
+### K8s
+``` shell
+asdf install # https://asdf-vm.com/
+brew install minikube
+brew link minikube
+minikube start --nodes=2
+minikube status
+kubect get pods
+minikube dashboard
+```
+
 Udemy course: [Working with Microservices in Go (Golang)](https://www.udemy.com/course/working-with-microservices-in-go/)
