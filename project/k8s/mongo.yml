@@ -45,4 +45,4 @@ spec:
     - protocol: TCP
       name: main-port
       port: 27017
-      targetPort: 2701
+      targetPort: 27017

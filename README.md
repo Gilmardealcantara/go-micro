@@ -84,8 +84,30 @@ curl http://localhost:5000/v2/_catalog
 
 ```shell
 cd broker-service
-docker build . -f ../broker-service/broker-service.dockerfile -t localhost:5000/broker-service
+docker build . -t localhost:5000/broker-service
 docker push localhost:5000/broker-service
+
+cd ..
+cd logger-service
+docker build . -f logger-service.dockerfile -t localhost:5000/logger-service
+docker push localhost:5000/logger-service
+
+cd ..
+cd mail-service
+docker build . -f mail-service.dockerfile -t localhost:5000/mailer-service
+docker push localhost:5000/mailer-service
+
+cd ..
+cd auth-service
+docker build . -f auth-service.dockerfile -t localhost:5000/auth-service
+docker push localhost:5000/auth-service
+
+cd ..
+cd listener-service
+docker build . -f listener-service.dockerfile -t localhost:5000/listener-service
+docker push localhost:5000/listener-service
+
+cd ..
 ```
 
 
