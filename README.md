@@ -65,14 +65,41 @@ protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=p
 ```
 
 ### K8s
+- #### Setup and push images to [minikube registry](https://minikube.sigs.k8s.io/docs/handbook/registry/#:~:text=minikube%20allows%20users%20to%20configure,requests%20from%20the%20CIDR%20range.)
+
+```shell
+minikube addons enable registry
+
+docker run --rm -it --network=host alpine ash -c "apk add socat && socat TCP-LISTEN:5000,reuseaddr,fork TCP:$(minikube ip):5000" # still running
+# open a new terminal
+kubectl get service --namespace kube-system
+
+# to expose run registry catalog
+kubectl port-forward --namespace kube-system service/registry 5000:80 # still open
+# open a new terminal
+curl http://localhost:5000/v2/_catalog
+```
+
+#### Build services images in push to registry
+
+```shell
+cd broker-service
+docker build . -f ../broker-service/broker-service.dockerfile -t localhost:5000/broker-service
+docker push localhost:5000/broker-service
+```
+
+
+#### Deploy in k8s
 ``` shell
 asdf install # https://asdf-vm.com/
 brew install minikube
 brew link minikube
-minikube start --nodes=2
+minikube start --insecure-registry "10.0.0.0/24"
 minikube status
 kubect get pods
 minikube dashboard
+cd projects
+kubectl apply -f k8s
 ```
 
 Udemy course: [Working with Microservices in Go (Golang)](https://www.udemy.com/course/working-with-microservices-in-go/)
