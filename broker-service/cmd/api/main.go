@@ -10,13 +10,15 @@ import (
 	"time"
 )
 
-const webPort = "80"
+const webPort = "8080"
 
 type Config struct {
 	Rabbit *amqp.Connection
 }
 
 func main() {
+	log.Printf("Web %s\n", webPort)
+
 	rabbitConn, err := connect()
 	if err != nil {
 		log.Println(err)

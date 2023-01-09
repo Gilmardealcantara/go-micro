@@ -83,8 +83,12 @@ curl http://localhost:5000/v2/_catalog
 #### Build services images in push to registry
 
 ```shell
+cd project 
+make build_all
+cd ..
+
 cd broker-service
-docker build . -t localhost:5000/broker-service
+docker build . -f  broker-service.dockerfile -t localhost:5000/broker-service
 docker push localhost:5000/broker-service
 
 cd ..
@@ -106,6 +110,11 @@ cd ..
 cd listener-service
 docker build . -f listener-service.dockerfile -t localhost:5000/listener-service
 docker push localhost:5000/listener-service
+
+cd ..
+cd front-end
+docker build . -f front-end.dockerfile -t localhost:5000/front-end
+docker push localhost:5000/front-end
 
 cd ..
 ```
@@ -131,10 +140,17 @@ kubectl apply -f k8s
 # expose deployment
 # 1
 kubectl delete svc broker-service
-kubectl expose deployment broker-service --type=LoadBalancer --port=8080 --target-port=80
+kubectl expose deployment broker-service --type=LoadBalancer --port=8080 --target-port=8080
 minikube tunnel # still open
 cd ../front-end 
 go run ./cmd/web
+
+#2 use ingress yml
+minikube addons enable ingress
+# add `127.0.0.1 front-end.info broker-service.info` in /etc/hosts
+kubectl apply -f ingress.yml
+minikube tunnel # still open
+# access `http://front-end.info/`
 
 ```
 
