@@ -112,7 +112,7 @@ cd ..
 
 
 #### Deploy in k8s
-``` shell
+```shell
 asdf install # https://asdf-vm.com/
 brew install minikube
 brew link minikube
@@ -124,9 +124,18 @@ minikube status
 kubect get pods
 minikube dashboard
 
-docker-compose -f postgres.yml up -d # external db 
 cd projects
+docker-compose -f postgres.yml up -d # external db 
 kubectl apply -f k8s
+
+# expose deployment
+# 1
+kubectl delete svc broker-service
+kubectl expose deployment broker-service --type=LoadBalancer --port=8080 --target-port=80
+minikube tunnel # still open
+cd ../front-end 
+go run ./cmd/web
+
 ```
 
 Udemy course: [Working with Microservices in Go (Golang)](https://www.udemy.com/course/working-with-microservices-in-go/)
