@@ -22,14 +22,14 @@ func (app *Config) Authenticate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	user, err := app.Models.User.GetByEmail(requestPayload.Email)
+	user, err := app.Repo.GetByEmail(requestPayload.Email)
 	if err != nil {
 		log.Printf("error: invalid credentials(email:%s): %v\n", requestPayload.Email, err)
 		_ = app.errorJSON(w, errors.New("App.Authenticate: invalid credentials"), http.StatusBadRequest)
 		return
 	}
 
-	valid, err := user.PasswordMatches(requestPayload.Password)
+	valid, err := app.Repo.PasswordMatches(requestPayload.Password, *user)
 	if err != nil || !valid {
 		log.Printf("App.Authenticate: error invalid credentials(password): %v\n", err)
 		_ = app.errorJSON(w, errors.New("invalid credentials"), http.StatusBadRequest)
