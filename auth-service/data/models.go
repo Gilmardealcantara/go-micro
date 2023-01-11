@@ -12,14 +12,12 @@ import (
 
 const dbTimeout = time.Second * 3
 
-var db *sql.DB
-
 type PostgresRepository struct {
 	Conn *sql.DB
 }
 
-func NewRepository(db *sql.DB) Repository {
-	return &PostgresRepository{Conn: db}
+func NewRepository(pool *sql.DB) Repository {
+	return &PostgresRepository{Conn: pool}
 }
 
 // User is the structure which holds one user from the database.
@@ -42,7 +40,7 @@ func (u *PostgresRepository) GetAll() ([]*User, error) {
 	query := `select id, email, first_name, last_name, password, user_active, created_at, updated_at
 	from users order by last_name`
 
-	rows, err := db.QueryContext(ctx, query)
+	rows, err := u.Conn.QueryContext(ctx, query)
 	if err != nil {
 		return nil, err
 	}
@@ -81,7 +79,7 @@ func (u *PostgresRepository) GetByEmail(email string) (*User, error) {
 	query := `select id, email, first_name, last_name, password, user_active, created_at, updated_at from users where email = $1`
 
 	var user User
-	row := db.QueryRowContext(ctx, query, email)
+	row := u.Conn.QueryRowContext(ctx, query, email)
 
 	err := row.Scan(
 		&user.ID,
@@ -109,7 +107,7 @@ func (u *PostgresRepository) GetOne(id int) (*User, error) {
 	query := `select id, email, first_name, last_name, password, user_active, created_at, updated_at from users where id = $1`
 
 	var user User
-	row := db.QueryRowContext(ctx, query, id)
+	row := u.Conn.QueryRowContext(ctx, query, id)
 
 	err := row.Scan(
 		&user.ID,
@@ -144,7 +142,7 @@ func (u *PostgresRepository) Update(user User) error {
 		where id = $6
 	`
 
-	_, err := db.ExecContext(ctx, stmt,
+	_, err := u.Conn.ExecContext(ctx, stmt,
 		user.Email,
 		user.FirstName,
 		user.LastName,
@@ -167,7 +165,7 @@ func (u *PostgresRepository) DeleteByID(id int) error {
 
 	stmt := `delete from users where id = $1`
 
-	_, err := db.ExecContext(ctx, stmt, id)
+	_, err := u.Conn.ExecContext(ctx, stmt, id)
 	if err != nil {
 		return err
 	}
@@ -189,7 +187,7 @@ func (u *PostgresRepository) Insert(user User) (int, error) {
 	stmt := `insert into users (email, first_name, last_name, password, user_active, created_at, updated_at)
 		values ($1, $2, $3, $4, $5, $6, $7) returning id`
 
-	err = db.QueryRowContext(ctx, stmt,
+	err = u.Conn.QueryRowContext(ctx, stmt,
 		user.Email,
 		user.FirstName,
 		user.LastName,
@@ -217,7 +215,7 @@ func (u *PostgresRepository) ResetPassword(password string, user User) error {
 	}
 
 	stmt := `update users set password = $1 where id = $2`
-	_, err = db.ExecContext(ctx, stmt, hashedPassword, user.ID)
+	_, err = u.Conn.ExecContext(ctx, stmt, hashedPassword, user.ID)
 	if err != nil {
 		return err
 	}
